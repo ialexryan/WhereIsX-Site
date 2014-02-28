@@ -1,5 +1,8 @@
 # Simple HTTP authentication module
 
+from functools import wraps
+from flask import Flask, request, Response
+
 def check_auth(auth_username, auth_password):
     """This function returns true if the username and password are in the list of authorized users."""
     return (auth_username in global_authorized_users and global_authorized_users[auth_username] == auth_password)
