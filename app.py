@@ -1,7 +1,6 @@
 from functools import wraps
 from flask import Flask, redirect, url_for, request, Response
 from authentication import *
-from error import *
 
 app = Flask(__name__)
 
