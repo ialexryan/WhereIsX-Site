@@ -4,9 +4,10 @@ app = Flask(__name__)
 
 default_user = "Jaden"
 
-global_user_location_dict = {"Jaden":"uninitialized"}
-global_authorized_users = {"Jaden":"12345"}
+global_user_location_dict = {default_user:"uninitialized"}
+global_authorized_users = {"myfirstuser":"password123"}
 
+#
 def check_auth(auth_username, auth_password):
     """This function returns true if the username and password are in the list of authorized users."""
     return (auth_username in global_authorized_users and global_authorized_users[auth_username] == auth_password)
