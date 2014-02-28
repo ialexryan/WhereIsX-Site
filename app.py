@@ -1,6 +1,5 @@
 from functools import wraps
 from flask import Flask, redirect, url_for, request, Response
-from authentication import *
 
 # Error Types
 ERR_MISSING_USER = 1
