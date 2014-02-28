@@ -84,7 +84,7 @@ def error(error_type):
 def edit_user(id):
     MyForm = model_form(User, base_class=Form)
     user = User.query.get(id)
-    form = MyForm(request.form, model)
+    form = MyForm(request.form, user)
 
     if request.method == 'POST' and form.validate():
         form.populate_obj(model)
