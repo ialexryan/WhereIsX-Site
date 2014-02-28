@@ -9,7 +9,7 @@ default_user = "Jaden"
 global_user_location_dict = {default_user:"uninitialized"}
 
 @app.route('/update_location/<username>/<location>')
-@requires_auth
+#@requires_auth
 def update_location(username, location):
         global global_user_location_dict
         global_user_location_dict[username] = location
