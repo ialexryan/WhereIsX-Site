@@ -77,7 +77,7 @@ def update_location(username, location):
 @app.route('/<username>')
 def print_location(username):
     for user in list_of_users:
-        if user.username = username:
+        if user.username == username:
             return user.firstname + " " + user.lastname + " is " + user.location
     return redirect(url_for('error', error_type=ERR_MISSING_USER))
 
