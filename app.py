@@ -28,7 +28,7 @@ current_user = default_user
 def check_auth(auth_username, auth_password):
     """This function returns true if the username and password are in the list of authorized users."""
     for user in list_of_users:
-        if user.username == auth_username and user.password = auth_password:
+        if user.username == auth_username and user.password == auth_password:
             global current_user
             current_user = user
             return True
