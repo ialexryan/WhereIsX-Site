@@ -97,7 +97,7 @@ def print_location(username):
     if user == None:
         return redirect(url_for('error', error_type=ERR_MISSING_USER))
     else:
-        return user.firstname + " " + user.lastname + " is " + user.locationNone
+        return user.firstname + " " + user.lastname + " is " + user.location
 
 @app.route('/')
 def print_default_user():
