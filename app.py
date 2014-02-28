@@ -7,7 +7,6 @@ app = Flask(__name__)
 default_user = "Jaden"
 
 global_user_location_dict = {default_user:"uninitialized"}
-global_authorized_users = {"myfirstuser":"password123"}
 
 @app.route('/update_location/<username>/<location>')
 @requires_auth
