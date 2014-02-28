@@ -5,6 +5,7 @@ from flask import Flask, redirect, url_for, request, Response
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config.from_object('config')
 
 # Error Types
 ERR_MISSING_USER = 1
