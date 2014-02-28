@@ -1,25 +1,42 @@
 from functools import wraps
 from flask import Flask, redirect, url_for, request, Response
+from flask.ext.sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
 
 # Error Types
 ERR_MISSING_USER = 1
 ERR_WRONG_USER = 2
 
-app = Flask(__name__)
+
+########## DATABASE SETUP ##########
+
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://whereisxdbuser:mysqlpass@localhost/whereisxdb"
+db = SQLAlchemy(app)
+
+
+########## USER SETUP ##########
 
 list_of_users = []
-
-class User:
-    def __init__(self, username, firstname, lastname, location, password):
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(127), unique=True)
+    email = db.Column(db.String(127), unique=True)
+    firstname = db.Column(db.String(127))
+    lastname = db.Column(db.String(127))
+    location = db.Column(db.String(500))
+    password = db.Column(db.String(127))
+    def __init__(self, username, email, firstname, lastname, location, password):
         self.username = username
+        self.email = email
         self.firstname = firstname
         self.lastname = lastname
         self.location = location
         self.password = password
         list_of_users.append(self)
 
-default_user = User("jgeller", "Jaden", "Geller", "uninitialized", "12345")
-current_user = default_user
+#default_user = User("jgeller", "jaden.geller@gmail.com", "Jaden", "Geller", "uninitialized", "12345")
+#current_user = default_user
 
 
 ########## AUTHENTICATION ##########
