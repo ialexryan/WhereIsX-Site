@@ -11,7 +11,7 @@ global_user_location_dict = {default_user:"uninitialized"}
 @app.route('/error/<error_type>')
 def error(error_type):
     if error_type == "missing user":
-        return "User not found - if you are seeing this page, something has gone wrong." + url_for(print_default_user)
+        return url_for(print_default_user)
     else:
         return "Unspecified error." + url_for(print_default_user)
 
