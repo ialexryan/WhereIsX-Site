@@ -1,33 +1,50 @@
 from functools import wraps
 from flask import Flask, redirect, url_for, request, Response
+from flask.ext.sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
 
 # Error Types
 ERR_MISSING_USER = 1
 ERR_WRONG_USER = 2
 
-app = Flask(__name__)
+
+########## DATABASE SETUP ##########
+
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://whereisxdbuser:mysqlpass@localhost/whereisxdb"
+db = SQLAlchemy(app)
+
+
+########## USER SETUP ##########
 
 list_of_users = []
-
-class User:
-    def __init__(self, username, firstname, lastname, location, password):
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(127), unique=True)
+    email = db.Column(db.String(127), unique=True)
+    firstname = db.Column(db.String(127))
+    lastname = db.Column(db.String(127))
+    location = db.Column(db.String(500))
+    password = db.Column(db.String(127))
+    def __init__(self, username, email, firstname, lastname, location, password):
         self.username = username
+        self.email = email
         self.firstname = firstname
         self.lastname = lastname
         self.location = location
         self.password = password
         list_of_users.append(self)
 
-default_user = User("jgeller", "Jaden", "Geller", "uninitialized", "12345")
-current_user = default_user
+default_user = User.query.filter_by(username="jgeller").first()
+current_user = None
 
 
 ########## AUTHENTICATION ##########
 
 def check_auth(auth_username, auth_password):
     """This function returns true if the username and password are in the list of authorized users."""
-    for user in list_of_users:
-        if user.username == auth_username and user.password == auth_password:
+    user = User.query.filter_by(username=auth_username).first()
+    if user.password == auth_password:
             global current_user
             current_user = user
             return True
@@ -66,19 +83,21 @@ def error(error_type):
 def update_location(username, location):
     # Checks that the user they are trying to update is the same user they
     # logged in as.
+    global current_user
     if username == current_user.username:
-        global current_user
         current_user.location = location
+        db.session.commit()
         return redirect(url_for('print_location', username=username))
     else:
-        return redirect(url_for('error', error_type=ERR_MISSING_USER))
+        return redirect(url_for('error', error_type=ERR_WRONG_USER))
 
 @app.route('/<username>')
 def print_location(username):
-    for user in list_of_users:
-        if user.username == username or (user.firstname+user.lastname) == username:
-            return user.firstname + " " + user.lastname + " is " + user.location
-    return redirect(url_for('error', error_type=ERR_MISSING_USER))
+    user = User.query.filter_by(username=username).first()
+    if user == None:
+        return redirect(url_for('error', error_type=ERR_MISSING_USER))
+    else:
+        return user.firstname + " " + user.lastname + " is " + user.location
 
 @app.route('/')
 def print_default_user():
