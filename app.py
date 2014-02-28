@@ -1,6 +1,7 @@
-from authentication import *
 from functools import wraps
 from flask import Flask, redirect, url_for, request, Response
+from authentication import *
+
 app = Flask(__name__)
 
 default_user = "Jaden"
