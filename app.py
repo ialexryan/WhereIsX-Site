@@ -14,9 +14,9 @@ global_user_location_dict = {default_user:"uninitialized"}
 @app.route('/error/<int:error_type>')
 def error(error_type):
     if error_type == ERR_MISSING_USER:
-        return url_for(print_default_user)
+        return "User not found - if you are seeing this page, something has gone wrong."
     else:
-        return "Unspecified error." + url_for(print_default_user)
+        return "Unspecified error."
 
 @app.route('/update_location/<username>/<location>')
 #@requires_auth
