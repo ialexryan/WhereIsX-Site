@@ -83,8 +83,8 @@ def error(error_type):
 def update_location(username, location):
     # Checks that the user they are trying to update is the same user they
     # logged in as.
+    global current_user
     if username == current_user.username:
-        global current_user
         current_user.location = location
         db.session.commit()
         return redirect(url_for('print_location', username=username))
