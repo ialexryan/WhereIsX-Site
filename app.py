@@ -1,4 +1,6 @@
 from functools import wraps
+from flask.ext.wtf import Form
+from wtforms.ext.sqlalchemy.orm import model_form
 from flask import Flask, redirect, url_for, request, Response
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -77,6 +79,21 @@ def error(error_type):
         return "You are trying to edit a user that is not the user you logged in as."
     else:
         return "Unspecified error."
+
+@app.route('/edit/<int:id>')
+def edit_user(id):
+    MyForm = model_form(User, base_class=Form)
+    user = User.query.get(id)
+    form = MyForm(request.form, model)
+
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(model)
+        db.session.commit()
+        flash("User updated")
+        return redirect(url_for('print_location', username=user.username))
+    #return render_template("edit.html", form=form)
+    return form
+
 
 @app.route('/update_location/<username>/<location>')
 @requires_auth
