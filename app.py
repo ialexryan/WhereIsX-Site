@@ -86,6 +86,7 @@ UserForm = model_form(User, base_class=Form)
 @app.route('/register')
 def register():
     form = UserForm(name=u'bad')
+    flash ("testing 123")
     return render_template('register.html', form=form)
 
 @app.route('/edit/<int:id>')
