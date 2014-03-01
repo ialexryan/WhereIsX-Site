@@ -42,6 +42,17 @@ default_user = User.query.filter_by(username="jgeller").first()
 current_user = None
 
 
+########## ERROR HANDLING ##########
+
+def error(error_type):
+    if error_type == ERR_MISSING_USER:
+        return "User not found - if you are seeing this page, something has gone wrong."
+    elif error_type == ERR_WRONG_USER:
+        return "You are trying to edit a user that is not the user you logged in as."
+    else:
+        return "Unspecified error."
+
+
 ########## AUTHENTICATION ##########
 
 def check_auth(auth_username, auth_password):
@@ -71,15 +82,6 @@ def requires_auth(f):
 
 
 ########## MAIN ROUTING ##########
-
-@app.route('/error/<int:error_type>')
-def error(error_type):
-    if error_type == ERR_MISSING_USER:
-        return "User not found - if you are seeing this page, something has gone wrong."
-    elif error_type == ERR_WRONG_USER:
-        return "You are trying to edit a user that is not the user you logged in as."
-    else:
-        return "Unspecified error."
 
 UserForm = model_form(User, base_class=Form)
 
@@ -114,13 +116,15 @@ def update_location(username, location):
         db.session.commit()
         return redirect(url_for('print_location', username=username))
     else:
-        return redirect(url_for('error', error_type=ERR_WRONG_USER))
+        flash(error(ERR_WRONG_USER))
+        return redirect(url_for('print_default_user'))
 
 @app.route('/<username>')
 def print_location(username):
     user = User.query.filter_by(username=username).first()
     if user == None:
-        return redirect(url_for('error', error_type=ERR_MISSING_USER))
+        flash(error(ERR_MISSING_USER))
+        return redirect(url_for('print_default_user'))
     else:
         #return user.firstname + " " + user.lastname + " is " + user.location
         return render_template('location.html', user=user)
