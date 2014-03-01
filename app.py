@@ -45,12 +45,12 @@ current_user = None
 ########## ERROR HANDLING ##########
 
 def error(error_type):
-    if error_type == ERR_MISSING_USER:
-        return "User not found - if you are seeing this page, something has gone wrong."
-    elif error_type == ERR_WRONG_USER:
-        return "You are trying to edit a user that is not the user you logged in as."
+    if error == ERR_MISSING_USER:
+        return "User not found."
+    elif error == ERR_WRONG_USER:
+        return "You are trying to edit a user that is not the user you are logged in as."
     else:
-        return "Unspecified error."
+        return "Unspecified error " + error
 
 
 ########## AUTHENTICATION ##########
@@ -103,7 +103,6 @@ def edit_user(id):
         return redirect(url_for('print_location', username=user.username))
     #return render_template("edit.html", form=form)
     return form
-
 
 @app.route('/update_location/<username>/<location>')
 @requires_auth
