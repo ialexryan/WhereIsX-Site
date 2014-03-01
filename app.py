@@ -44,13 +44,13 @@ current_user = None
 
 ########## ERROR HANDLING ##########
 
-def error(error_type):
-    if error == ERR_MISSING_USER:
+def error(err):
+    if err == ERR_MISSING_USER:
         return "User not found."
-    elif error == ERR_WRONG_USER:
+    elif err == ERR_WRONG_USER:
         return "You are trying to edit a user that is not the user you are logged in as."
     else:
-        return "Unspecified error " + error
+        return "Unspecified error " + err
 
 
 ########## AUTHENTICATION ##########
