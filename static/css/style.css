@@ -16,12 +16,12 @@ html, body {
     background-color: #0F1432;
 }
 
-h2 {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+.hnbold {
+    font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", customHelveticaNeueBold, "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-p {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+.hnthin {
+    font-family: "HelveticaNeue-Thin", "Helvetica Neue Thin", customHelveticaNeueThin, "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 .center {
