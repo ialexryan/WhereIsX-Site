@@ -86,7 +86,6 @@ UserForm = model_form(User, base_class=Form)
 @app.route('/register')
 def register():
     form = UserForm(name=u'bad')
-    flash ("testing 123")
     return render_template('register.html', form=form)
 
 @app.route('/edit/<int:id>')
@@ -123,7 +122,8 @@ def print_location(username):
     if user == None:
         return redirect(url_for('error', error_type=ERR_MISSING_USER))
     else:
-        return user.firstname + " " + user.lastname + " is " + user.location
+        #return user.firstname + " " + user.lastname + " is " + user.location
+        return render_template('location.html', user=user)
 
 @app.route('/')
 def print_default_user():
