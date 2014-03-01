@@ -1,8 +1,11 @@
 from functools import wraps
-from flask import Flask, redirect, url_for, request, Response
+from flask.ext.wtf import Form
+from wtforms.ext.sqlalchemy.orm import model_form
+from flask import Flask, redirect, url_for, request, Response, flash, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config.from_object('config')
 
 # Error Types
 ERR_MISSING_USER = 1
@@ -39,6 +42,17 @@ default_user = User.query.filter_by(username="jgeller").first()
 current_user = None
 
 
+########## ERROR HANDLING ##########
+
+def error(err):
+    if err == ERR_MISSING_USER:
+        return "User not found."
+    elif err == ERR_WRONG_USER:
+        return "You are trying to edit a user that is not the user you are logged in as."
+    else:
+        return "Unspecified error " + err
+
+
 ########## AUTHENTICATION ##########
 
 def check_auth(auth_username, auth_password):
@@ -69,14 +83,26 @@ def requires_auth(f):
 
 ########## MAIN ROUTING ##########
 
-@app.route('/error/<int:error_type>')
-def error(error_type):
-    if error_type == ERR_MISSING_USER:
-        return "User not found - if you are seeing this page, something has gone wrong."
-    elif error_type == ERR_WRONG_USER:
-        return "You are trying to edit a user that is not the user you logged in as."
-    else:
-        return "Unspecified error."
+UserForm = model_form(User, base_class=Form)
+
+@app.route('/register')
+def register():
+    form = UserForm(name=u'bad')
+    return render_template('register.html', form=form)
+
+@app.route('/edit/<int:id>')
+def edit_user(id):
+    MyForm = model_form(User, base_class=Form)
+    user = User.query.get(id)
+    form = MyForm(request.form, user)
+
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(model)
+        db.session.commit()
+        flash("User updated")
+        return redirect(url_for('print_location', username=user.username))
+    #return render_template("edit.html", form=form)
+    return form
 
 @app.route('/update_location/<username>/<location>')
 @requires_auth
@@ -89,15 +115,18 @@ def update_location(username, location):
         db.session.commit()
         return redirect(url_for('print_location', username=username))
     else:
-        return redirect(url_for('error', error_type=ERR_WRONG_USER))
+        flash(error(ERR_WRONG_USER))
+        return redirect(url_for('print_default_user'))
 
 @app.route('/<username>')
 def print_location(username):
     user = User.query.filter_by(username=username).first()
     if user == None:
-        return redirect(url_for('error', error_type=ERR_MISSING_USER))
+        flash(error(ERR_MISSING_USER))
+        return redirect(url_for('print_default_user'))
     else:
-        return user.firstname + " " + user.lastname + " is " + user.location
+        #return user.firstname + " " + user.lastname + " is " + user.location
+        return render_template('location.html', user=user)
 
 @app.route('/')
 def print_default_user():
