@@ -1,5 +1,5 @@
 body {
-    background-image:url('../img/background.png')
+    background-image:url('/static/img/background.png')
     background-color: #D8D8D8;
 }
 .flashes {color: red;}
