@@ -1,3 +1,6 @@
-body {background-color: #D8D8D8;}
+body {
+    background-image:url('../img/background.png')
+    background-color: #D8D8D8;
+}
 .flashes {color: red;}
 h1 {color: blue;}
