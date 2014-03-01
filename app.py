@@ -1,7 +1,7 @@
 from functools import wraps
 from flask.ext.wtf import Form
 from wtforms.ext.sqlalchemy.orm import model_form
-from flask import Flask, redirect, url_for, request, Response
+from flask import Flask, redirect, url_for, request, Response, flash, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -80,6 +80,13 @@ def error(error_type):
         return "You are trying to edit a user that is not the user you logged in as."
     else:
         return "Unspecified error."
+
+UserForm = model_form(User, base_class=Form)
+
+@app.route('/register')
+def register():
+    form = UserForm(name=u'bad')
+    return render_template('create.html', form=form)
 
 @app.route('/edit/<int:id>')
 def edit_user(id):
