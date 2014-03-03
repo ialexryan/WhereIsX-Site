@@ -82,10 +82,18 @@ def requires_auth(f):
 ########## MAIN ROUTING ##########
 
 @app.route('/register', methods=['GET', 'POST'])
+@requires_auth
 def register_response():
     if request.method == 'POST':
-        text = request.form['text']
-        flash(text)
+        newusername = request.form['username']
+        newemail = request.form['email']
+        newfirstname = request.form['firstname']
+        newlastname = request.form['lastname']
+        newpassword = request.form['password']
+        newuser = User(newusername, newemail, newfirstname, newlastname, "somewhere", newpassword)
+        db.session.add(newuser)
+        db.session.commit()
+        flash("User " + username + " has been created.")
         return redirect(url_for('print_default_user'))
     else:
         return render_template('register.html')
