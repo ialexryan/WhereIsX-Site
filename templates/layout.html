@@ -9,7 +9,9 @@
         {% with messages = get_flashed_messages() %}
           {% if messages %}
             {% for message in messages %}
+            <div class="top hnthin">
               <p id="flashes">{{ message }}</p>
+            </div>
             {% endfor %}
           {% endif %}
         {% endwith %}
