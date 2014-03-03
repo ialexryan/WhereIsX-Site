@@ -34,12 +34,14 @@ html, body {
 }
 
 .top-center {
+    width: 100%;
+    margin: auto;
     vertical-align: top;
     text-align: center;
-    display: table-cell;
 }
 
 .middle-center {
+    width: 100%;
     vertical-align: middle;
     text-align: center;
     display: table-cell;
