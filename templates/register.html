@@ -1,13 +1,26 @@
 {% extends "layout.html" %}
 {% block body %}
-    <h1>Enter some text</h1>
-    <h2>(it will be converted to uppercase)</h2>
-    <form action="" method="POST">
-        <input type="text" name="username" value="jsmith">
-        <input type="email" name="email" value="jsmith@gmail.com">
-        <input type="text" name="firstname" value="John">
-        <input type="text" name="lastname" value="Smith">
-        <input type="password" name="password">
-        <input type="submit" name="register-form" value="Submit">
-    </form>
+<div class="bottom-container">
+    <div class="middle-center">
+        <div id="register">
+        <h3 class="hnbold">Create a new user</h3>
+            <div class="hnthin">
+            <form action="" method="POST">
+                <p>Username</p>
+                <input type="text" name="username" value="jsmith">
+                <p>Email</p>
+                <input type="email" name="email" value="jsmith@gmail.com">
+                <p>First Name</p>
+                <input type="text" name="firstname" value="John">
+                <p>Last Name</p>
+                <input type="text" name="lastname" value="Smith">
+                <p>Password</p>
+                <input type="password" name="password">
+                <br />
+                <input type="submit" name="register-form" value="Submit">
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
