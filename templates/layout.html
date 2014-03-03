@@ -5,22 +5,17 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="top-container">
-        <div class="top-center">
-            <p id="flashes">testflash</p>
-        </div>
-    </div>
-        <br>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
-        <!--<div class="center top hnthin">
-          <p id="flashes">{{ message }}</p>
-      </div>-->
+        <div class="top-container">
+            <div class="top-center">
+                <p id="flashes">{{ message }}</p>
+            </div>
+        </div>
         {% endfor %}
       {% endif %}
     {% endwith %}
     {% block body %}{% endblock %}
-    </div>
 </body>
 </html>
