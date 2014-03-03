@@ -40,12 +40,6 @@ html, body {
     display: table;
 }
 
-.top-center {
-    vertical-align: top;
-    text-align: center;
-    display: table-cell;
-}
-
 .middle-center {
     vertical-align: middle;
     text-align: center;
