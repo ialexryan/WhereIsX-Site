@@ -38,6 +38,7 @@ html, body {
     margin: auto;
     vertical-align: top;
     text-align: center;
+    display: table-cell;
 }
 
 .middle-center {
