@@ -1,13 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="center-container">
-    <div class="center">
-    <div class="middle">
-        <div id="location">
-            <p class="hnthin">{{ user.firstname }} is</p>
-            <p class="hnbold">{{user.location}}</p>
-        </div>
-    </div>
+<div class="middle-center">
+    <div id="location">
+        <p class="hnthin">{{ user.firstname }} is</p>
+        <p class="hnbold">{{user.location}}</p>
     </div>
 </div>
 {% endblock %}

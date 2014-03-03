@@ -33,13 +33,16 @@ html, body {
     display: table;
 }
 
-.center {
+.top-center {
+    vertical-align: top;
     text-align: center;
     display: table-cell;
 }
 
-.middle {
+.middle-center {
     vertical-align: middle;
+    text-align: center;
+    display: table-cell;
 }
 
 #location {
