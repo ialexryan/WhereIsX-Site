@@ -81,14 +81,14 @@ def requires_auth(f):
 
 ########## MAIN ROUTING ##########
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register_response():
-    return render_template('register.html')
-
-@app.route('/register', methods=['POST'])
-def register_post():
-    text = request.form['text']
-    return text
+    if request.method == 'POST':
+        text = request.form['text']
+        flash(text)
+        return redirect(url_for('print_default_user'))
+    else:
+        return render_template('register.html')
 
 @app.route('/update_location/<username>/<location>')
 @requires_auth
