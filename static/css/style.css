@@ -40,7 +40,7 @@ html, body {
     display: table;
 }
 
-.middle-center {
+.center {
     vertical-align: middle;
     text-align: center;
     display: table-cell;
