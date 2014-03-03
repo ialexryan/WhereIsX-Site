@@ -1,6 +1,4 @@
 from functools import wraps
-from flask.ext.wtf import Form
-from wtforms.ext.sqlalchemy.orm import model_form
 from flask import Flask, redirect, url_for, request, Response, flash, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -83,26 +81,14 @@ def requires_auth(f):
 
 ########## MAIN ROUTING ##########
 
-UserForm = model_form(User, base_class=Form)
-
 @app.route('/register')
-def register():
-    form = UserForm(name=u'bad')
-    return render_template('register.html', form=form)
+def register_response():
+    return render_template('register.html')
 
-@app.route('/edit/<int:id>')
-def edit_user(id):
-    MyForm = model_form(User, base_class=Form)
-    user = User.query.get(id)
-    form = MyForm(request.form, user)
-
-    if request.method == 'POST' and form.validate():
-        form.populate_obj(model)
-        db.session.commit()
-        flash("User updated")
-        return redirect(url_for('print_location', username=user.username))
-    #return render_template("edit.html", form=form)
-    return form
+@app.route('/register', methods=['POST'])
+def register_post():
+    text = request.form['text']
+    return text
 
 @app.route('/update_location/<username>/<location>')
 @requires_auth
