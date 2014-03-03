@@ -93,7 +93,7 @@ def register_response():
         newuser = User(newusername, newemail, newfirstname, newlastname, "somewhere", newpassword)
         db.session.add(newuser)
         db.session.commit()
-        flash("User " + username + " has been created.")
+        flash("User " + newusername + " has been created.")
         return redirect(url_for('print_default_user'))
     else:
         return render_template('register.html')
