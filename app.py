@@ -1,6 +1,4 @@
 from functools import wraps
-from flask.ext.wtf import Form
-from wtforms.ext.sqlalchemy.orm import model_form
 from flask import Flask, redirect, url_for, request, Response, flash, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -83,26 +81,22 @@ def requires_auth(f):
 
 ########## MAIN ROUTING ##########
 
-UserForm = model_form(User, base_class=Form)
-
-@app.route('/register')
-def register():
-    form = UserForm(name=u'bad')
-    return render_template('register.html', form=form)
-
-@app.route('/edit/<int:id>')
-def edit_user(id):
-    MyForm = model_form(User, base_class=Form)
-    user = User.query.get(id)
-    form = MyForm(request.form, user)
-
-    if request.method == 'POST' and form.validate():
-        form.populate_obj(model)
+@app.route('/register', methods=['GET', 'POST'])
+@requires_auth
+def register_response():
+    if request.method == 'POST':
+        newusername = request.form['username']
+        newemail = request.form['email']
+        newfirstname = request.form['firstname']
+        newlastname = request.form['lastname']
+        newpassword = request.form['password']
+        newuser = User(newusername, newemail, newfirstname, newlastname, "somewhere", newpassword)
+        db.session.add(newuser)
         db.session.commit()
-        flash("User updated")
-        return redirect(url_for('print_location', username=user.username))
-    #return render_template("edit.html", form=form)
-    return form
+        flash("User " + newusername + " has been created.")
+        return redirect(url_for('print_default_user'))
+    else:
+        return render_template('register.html')
 
 @app.route('/update_location/<username>/<location>')
 @requires_auth

@@ -26,22 +26,24 @@ html, body {
     font-family: "HelveticaNeue-Thin", "Helvetica Neue Thin", customHelveticaNeueThin, "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-.center {
+.top-container {
     width: 100%;
-    height: 100%;
+    height: 1%;
     margin: auto;
     display: table;
 }
 
-.top {
-    text-align: center;
-    display: table-cell;
+.bottom-container {
+    width: 100%;
+    height: 99%;
+    margin: auto;
+    display: table;
 }
 
-.middle {
+.center {
+    vertical-align: middle;
     text-align: center;
     display: table-cell;
-    vertical-align: middle;
 }
 
 #location {
@@ -51,4 +53,8 @@ html, body {
 
 #flashes {
     color: red;
+}
+
+#register {
+    color: white;
 }
