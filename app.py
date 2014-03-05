@@ -37,7 +37,7 @@ class User(db.Model):
         self.location = location
         self.password = bcrypt.generate_password_hash(password)
         list_of_users.append(self)
-    def check_password(password):
+    def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
 
 default_user = User.query.filter_by(username="jgeller").first()
