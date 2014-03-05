@@ -1,9 +1,11 @@
 from functools import wraps
 from flask import Flask, redirect, url_for, request, Response, flash, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
+from flaskext.bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config.from_object('config')
+bcrypt = Bcrypt(app)
 
 # Error Types
 ERR_MISSING_USER = 1
@@ -33,8 +35,10 @@ class User(db.Model):
         self.firstname = firstname
         self.lastname = lastname
         self.location = location
-        self.password = password
+        self.password = bcrypt.generate_password_hash(password)
         list_of_users.append(self)
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password, password)
 
 default_user = User.query.filter_by(username="jgeller").first()
 current_user = None
@@ -55,8 +59,8 @@ def error(err):
 
 def check_auth(auth_username, auth_password):
     """This function returns true if the username and password are in the list of authorized users."""
-    user = User.query.filter_by(username=auth_username).first()
-    if user.password == auth_password:
+    user = User.query.filter_by(username=auth_username).first_or_404()
+    if user.check_password(auth_password):
             global current_user
             current_user = user
             return True
