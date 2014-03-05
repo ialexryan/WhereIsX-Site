@@ -55,7 +55,7 @@ def error(err):
 
 def check_auth(auth_username, auth_password):
     """This function returns true if the username and password are in the list of authorized users."""
-    user = User.query.filter_by(username=auth_username).first()
+    user = User.query.filter_by(username=auth_username).first_or_404()
     if user.password == auth_password:
             global current_user
             current_user = user
